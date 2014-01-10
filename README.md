@@ -1,19 +1,22 @@
 scripts
 =======
 
-checkLHE.py <lhe-file>
-  Checks lhe-file for missing event tags and blank lines
+ * **checkLHE.py <lhe-file>**
+   Checks lhe-file for missing event tags and blank lines
 
-cpstar 'something_*_*.txt' 'something_different_*_*.txt'
-  Allows to use wildcards in the cp command
+ * **copySRM.py <source> <destination>**
+   Copy the source directory (relative path) to a destination on Brussels T2 (path relative to /pnfs/iihe/cms/store/user/$USER) 
 
-crabStatus.py <options>
-  Wrapper around crab -status which allows to use filters on output and easy resubmissions
+ * **cpstar 'something_*_*.txt' 'something_different_*_*.txt'**
+   Allows to use wildcards in the cp command
 
-mvstar 'something_*_*.txt' 'something_different_*_*.txt'
-  Allows to use wildcards in the mv command
+ * **crabStatus.py <options>**
+   Wrapper around crab -status which allows to use filters on output and easy resubmissions
 
-removeExcept <files>
+ * **mvstar 'something_*_*.txt' 'something_different_*_*.txt'**
+   Allows to use wildcards in the mv command
+
+ * **removeExcept <files>**
   Removes everyhing in this folder except the specified files
 
-<other scripts still to be uploaded>
+
