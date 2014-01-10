@@ -8,17 +8,12 @@ import os
 import sys 
 import getpass
 
-source = sys.argv[1]
-destination = sys.argv[2]
-
-if source[0] == '~': 
-  if source[1] == '/': source = source.replace('~', '/user/' + getpass.getuser(),1)
-  else: source = source.replace('~', '/user/',1)
-if source[0] != '/': source = os.getcwd() + '/' + source
-
-path_parts = source.split('/')
-depth = source.count('/')
-copyArguments = []
+def makePathAbsolute(path):
+  if path[0] == '~': 
+    if path[1] == '/': path = path.replace('~', '/user/' + getpass.getuser(),1)
+    else: path = path.replace('~', '/user/',1)
+  if path[0] != '/': path = os.getcwd() + '/' + path
+  return path
 
 def getWildcards(wildcards, match, path):
   x = path.split('*', 1)
@@ -32,22 +27,27 @@ def fillWildcards(wildcards, path):
   newPath = path
   i = 0
   while '*' in newPath:
-    newPath = newPath.replace('*', wildcards[i], 1)
+    if i < len(wildcards): newPath = newPath.replace('*', wildcards[i], 1)
+    else: 
+      print 'To many wildcards in destination'
+      exit(1)
     i = i+1
   return newPath
 
-def lookIntoDir(path, i):
-  for x in os.listdir(path):
-    if fnmatch.fnmatch(x, path_parts[i]):
-      if path == '/': path = ''
-      if os.path.isdir(path+'/'+x) and i < depth: lookIntoDir(path+'/'+x, i+1)
+def lookIntoDir(head, tail, destination, copyArguments):
+  middle = tail.split('/')[0] 
+  for item in os.listdir(head):
+    if fnmatch.fnmatch(item, middle):
+      path = os.path.join(head, item)
+      leftOver = tail[len(middle)+1:]
+      if os.path.isdir(path) and leftOver: lookIntoDir(path, leftOver, destination, copyArguments)
       else: 
-        if path_parts[i] == path_parts[-1]:
+        if not leftOver:
           wildcards = []
-          getWildcards(wildcards, path+'/'+x, source)
+          getWildcards(wildcards, path, source)
           newDest = fillWildcards(wildcards, destination)
-          if os.path.isdir(path+'/'+x): copyArguments.append('cp -r ' + path + '/' + x + ' ' + newDest)
-          else: copyArguments.append('cp ' + path + '/' + x + ' ' + newDest)
+          if os.path.isdir(path): copyArguments.append('cp -r ' + path + ' ' + newDest)
+          else: copyArguments.append('cp ' + path + ' ' + newDest)
         
 def confirm(prompt, resp=False):
   prompt = '%s %s|%s: ' % (prompt, 'y', 'n')
@@ -60,7 +60,10 @@ def confirm(prompt, resp=False):
     if ans == 'y' or ans == 'Y': return True
     if ans == 'n' or ans == 'N': return False
 
-lookIntoDir('/', 1)
+source = makePathAbsolute(sys.argv[1])
+destination = makePathAbsolute(sys.argv[2])
+copyArguments = []
+lookIntoDir('/', source[1:], destination, copyArguments)
 for x in copyArguments: print x
 if(confirm('Copy these files?')):
   for x in copyArguments: os.system(x) 

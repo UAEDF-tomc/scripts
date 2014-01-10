@@ -1,22 +1,31 @@
 scripts
 =======
 
- * **checkLHE.py <lhe-file>**
-   Checks lhe-file for missing event tags and blank lines
+ * **checkLHE.py <lhe-file>** 
+   Checks lhe-file for missing event tags and blank lines 
+   Returns number of events
 
- * **copySRM.py <source> <destination>**
+ * **copySRM.py <source> <destination>** 
    Copy the source directory (relative path) to a destination on Brussels T2 (path relative to /pnfs/iihe/cms/store/user/$USER) 
 
- * **cpstar 'something_*_*.txt' 'something_different_*_*.txt'**
-   Allows to use wildcards in the cp command
+ * **cpstar 'something_*_*.txt' 'something_different_*_*.txt'** 
+   Allows to use wildcards in the cp command 
+   Destination/source should be quoted and could be both relative or absolute
 
- * **crabStatus.py <options>**
-   Wrapper around crab -status which allows to use filters on output and easy resubmissions
+ * **crabStatus.py <options>** 
+   Wrapper around crab -status which allows to use filters on output and easy resubmissions 
+   -j <jobs>	select on jobs 
+   -s <search>	select on status, host, exit code,... 
+   -k		kill selected jobs 
+   -r		resubmit of jobs 
+   -f		forceResubmit of jobs 
+   -b		blacklist T2
 
- * **mvstar 'something_*_*.txt' 'something_different_*_*.txt'**
-   Allows to use wildcards in the mv command
+ * **mvstar 'something_*_*.txt' 'something_different_*_*.txt'** 
+   Allows to use wildcards in the mv command 
+   Destination/source should be quoted and could be both relative or absolute 
 
- * **removeExcept <files>**
-  Removes everyhing in this folder except the specified files
+ * **removeExcept <files>** 
+  Removes everyhing in this folder except the specified files 
 
 
