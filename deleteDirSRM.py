@@ -8,7 +8,7 @@ import sys
 userdir = "srm://maite.iihe.ac.be:8443/pnfs/iihe/cms/store/user/" + getpass.getuser() + "/"
 directory = sys.argv[1]
 directory = directory.replace("/pnfs/iihe/cms/store/user/" + getpass.getuser() + "/", "")
-if not directory.endswith('/'): directory + '/'
+if not directory.endswith('/'): directory += '/'
 
 # Function for confirmation
 def confirm(prompt, resp=False):
