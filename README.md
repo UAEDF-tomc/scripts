@@ -6,7 +6,8 @@ scripts
    Returns number of events
 
  * **copySRM.py <source> <destination>** 
-   Copy the source directory (relative path) to a destination on Brussels T2 (path relative to /pnfs/iihe/cms/store/user/$USER) 
+   Copy the source directory (relative path) to a destination on Brussels T2 (path relative to /pnfs/iihe/cms/store/user/$USER)
+   (Need voms-proxy-init to work)
 
  * **cpstar 'something\_\*\_\*.txt' 'something\_\*\_different\_\*.txt'**  
    Allows to use wildcards in the cp command  

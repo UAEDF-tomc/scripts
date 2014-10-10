@@ -79,6 +79,8 @@ print 'Selecting jobs: ' + options.jobs
 filteredJobs = []
 abortedJobs = []
 killFailedJobs = []
+siteErrorJobs = []
+cannotSubmitJobs = []
 cannotSubmitJobs = []
 cancelledJobs = []
 infoPart = False
@@ -98,6 +100,11 @@ for line in statusFile:
         print line,
         filteredJobs.append(jobID)
     if 'Aborted' in jobInfo: abortedJobs.append(jobID)
+    if '60317' in jobInfo: siteErrorJobs.append(jobID)
+    if '60307' in jobInfo: siteErrorJobs.append(jobID)
+    if '10030' in jobInfo: siteErrorJobs.append(jobID)
+    if '10040' in jobInfo: siteErrorJobs.append(jobID)
+    if '50115' in jobInfo: siteErrorJobs.append(jobID)
     if 'KillFailed' in jobInfo: killFailedJobs.append(jobID)
     if 'CannotSubmit' in jobInfo: cannotSubmitJobs.append(jobID)
     if 'Cancelled' in jobInfo: cancelledJobs.append(jobID)
@@ -115,12 +122,13 @@ for line in statusFile:
 
 jobList = jobsToCrabList(filteredJobs)
 abortedList = jobsToCrabList(abortedJobs)
+siteErrorList = jobsToCrabList(siteErrorJobs)
 killFailedList = jobsToCrabList(killFailedJobs)
 cannotSubmitList = jobsToCrabList(cannotSubmitJobs)
 cancelledList = jobsToCrabList(cancelledJobs)
 
 resubmitList = abortedList + "," + cancelledList
-forceResubmitList = killFailedList + "," + cannotSubmitList
+forceResubmitList = killFailedList + "," + cannotSubmitList + "," + siteErrorList
 
 print "Jobs listed above: " + jobList
 if options.kill and jobList != "": os.system("crab -kill " + jobList)
